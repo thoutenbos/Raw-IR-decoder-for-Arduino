@@ -1,27 +1,27 @@
 #include <Arduino.h>
 
 #if defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(ESP32)
-  #define MITSUBISHI_ELECTRIC
-  #define FUJITSU
-  #define MITSUBISHI_HEAVY
-  #define DAIKIN
-  #define SHARP_
-  #define CARRIER
-  #define PANASONIC_CKP
-  #define PANASONIC_CS
-  #define HYUNDAI
-  #define GREE
+  //#define MITSUBISHI_ELECTRIC
+  //#define FUJITSU
+  //#define MITSUBISHI_HEAVY
+  //#define DAIKIN
+  //#define SHARP_
+  //#define CARRIER
+  //#define PANASONIC_CKP
+  //#define PANASONIC_CS
+  //#define HYUNDAI
+  //#define GREE
   #define GREE_YAC
-  #define FUEGO
-  #define TOSHIBA
-  #define NIBE
-  #define AIRWELL
-  #define HITACHI
-  #define SAMSUNG
-  #define BALLU
-  #define AUX
-  #define ZHLT01_REMOTE
-  #define ZHJG01_REMOTE
+  //#define FUEGO
+  //#define TOSHIBA
+  //#define NIBE
+  //#define AIRWELL
+  //#define HITACHI
+  //#define SAMSUNG
+  //#define BALLU
+  //#define AUX
+  //#define ZHLT01_REMOTE
+  //#define ZHJG01_REMOTE
 #else
   // low-memory device,
   // uncomment the define corresponding with your remote

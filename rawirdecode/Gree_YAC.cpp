@@ -4,14 +4,14 @@ bool decodeGree_YAC(byte *bytes, int pulseCount)
 {
   // If this looks like a Gree code...
   if ( pulseCount == 19 ) {
-	  Serial.println(F("Looks like a Gree YAC protocol for I-Feel"));
+	  Serial.println(F("Looks like a Gree YAC/YAP protocol for I-Feel"));
 	  Serial.print(F("I-Feel Temperature: "));
 	  Serial.println(bytes[0]);
 	  return true;
   }
   
-  if ( pulseCount == 142 || pulseCount == 161 ) {
-    Serial.println(F("Looks like a Gree YAC protocol"));
+  if ( pulseCount == 142 || pulseCount == 161 || pulseCount == 213 || pulseCount == 232 ) {
+    Serial.println(F("Looks like a Gree YAC or YAP protocol"));
 
     // Check if the checksum matches
     uint8_t checksum0 = (
@@ -24,7 +24,7 @@ bool decodeGree_YAC(byte *bytes, int pulseCount)
       ((bytes[6] & 0xF0) >> 4) +
       0x0A) & 0xF;
 
-	uint8_t checksum1 = (
+	  uint8_t checksum1 = (
       (bytes[8] & 0x0F) +
       (bytes[9] & 0x0F) +
       (bytes[10] & 0x0F) +
@@ -34,9 +34,8 @@ bool decodeGree_YAC(byte *bytes, int pulseCount)
       ((bytes[14] & 0xF0) >> 4) +
       0x0A) & 0xF;
 
-	  
-	//byte 7[7:4] contais checksum for bytes 0-6
-	//byte 15[7:4] contais checksum for bytes 8-14
+	    //byte 7[7:4] contais checksum for bytes 0-6
+	    //byte 15[7:4] contais checksum for bytes 8-14
     if ((checksum0 == (bytes[7]>>4)) &&  (checksum1 == (bytes[15]>>4))) { 
       Serial.println(F("Checksum matches"));
     } else {
@@ -258,9 +257,31 @@ bool decodeGree_YAC(byte *bytes, int pulseCount)
 		break;
 	}
 
+  switch (bytes[5] & 0x40) {
+	case 0x00:
+		Serial.println(F("WiFi: OFF"));
+		break;
+	case 0x40:
+		Serial.println(F("WiFi: ON"));
+		break;
+	}
+
+  switch (bytes[7] & 0x4) {
+	case 0x00:
+		Serial.println(F("StHt: OFF"));
+		break;
+	case 0x04:
+		Serial.println(F("StHt: ON"));
+		break;
+	}
+
 	if (pulseCount == 161) {
 		Serial.print(F("I-FEEL TEMPERATURE: "));
 		Serial.println(bytes[16]);
+  }
+  else if (pulseCount == 232) {
+    Serial.print(F("I-FEEL TEMPERATURE: "));
+		Serial.println(bytes[24]);    
 	}
     return true;
   }
